@@ -1,0 +1,3 @@
+beanie
+discord
+python-dotenv
