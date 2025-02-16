@@ -2,8 +2,10 @@ from discord import Embed
 import discord
 
 
-def base_embed():
-    return Embed(color=0x346EEB).set_footer(text="Time to cook.")
+def base_embed(title: str = None, description: str = None, color=0x346EEB) -> Embed:
+    return Embed(color=color, title=title, description=description).set_footer(
+        text="Breaking Bot, the meth-making robot."
+    )
 
 
 class Confirm(discord.ui.View):
@@ -18,13 +20,13 @@ class Confirm(discord.ui.View):
     async def confirm(
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
-        await interaction.response.send_message("Have a great day.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
         self.value = True
         self.stop()
 
     # This one is similar to the confirmation button except sets the inner value to `False`
     @discord.ui.button(label="Cancel", style=discord.ButtonStyle.grey)
     async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_message("You — are not the guy.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
         self.value = False
         self.stop()

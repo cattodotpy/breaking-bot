@@ -1,6 +1,7 @@
 import asyncio
-from .models import User as UserDocument
-from motor.motor_asyncio import AsyncIOMotorDatabase
+
+from core.objects.item import Item
+from ..models import User as UserDocument
 
 
 class User:
@@ -9,6 +10,7 @@ class User:
     experience: int
     level: int
     created_at: int
+    inventory: list[Item] = []
     lock: asyncio.Lock
     doc: UserDocument
 
@@ -19,6 +21,7 @@ class User:
         self.level = obj.level
         self.created_at = obj.created_at
         self.lock = asyncio.Lock()  # Lock for user operations
+        self.inventory = [Item(item) for item in obj.inventory]
         self.doc = obj
 
     def __repr__(self):
@@ -39,12 +42,21 @@ class User:
             "created_at": self.created_at,
         }
 
-    async def save(self):
-        await self.doc.update(
-            {
-                "$set": self.to_dict(),
-            }
+    def to_document(self):
+        return UserDocument(
+            id=self.doc.id,
+            discord_id=self.discord_id,
+            balance=self.balance,
+            experience=self.experience,
+            level=self.level,
+            created_at=self.created_at,
+            items=self.inventory,
         )
+
+    async def save(self):
+        # save the items as link
+        self.doc.inventory = [item.to_document() for item in self.inventory]
+        await self.doc.save()
 
     async def add_balance(self, amount: float):
         self.balance += amount
@@ -60,4 +72,8 @@ class User:
 
     async def add_level(self, amount: int):
         self.level += amount
+        await self.save()
+
+    async def add_item(self, item: Item):
+        self.inventory.append(item)
         await self.save()

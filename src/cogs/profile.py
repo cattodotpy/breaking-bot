@@ -23,6 +23,24 @@ class Profile(commands.Cog):
 
         return await ctx.reply(embed=embed)
 
+    @commands.command(aliases=["inv"])
+    async def inventory(self, ctx: commands.Context, target: discord.Member = None):
+        if target is None:
+            target = ctx.author
+        user = await self.bot.economy.get_user(target.id)
+        print(user)
+        embed = base_embed()
+
+        embed.title = f"{target.display_name}'s Inventory"
+
+        if not user.inventory:
+            embed.description = "No items in inventory."
+        else:
+            for item in user.inventory:
+                embed.add_field(name=item.name, value=item.description)
+
+        return await ctx.reply(embed=embed)
+
 
 async def setup(bot: BreakingBot):
     await bot.add_cog(Profile(bot))

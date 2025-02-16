@@ -10,7 +10,7 @@ from .config import Config
 import os
 
 REQUIRED_ENVS = ["MONGO_URI", "BOT_TOKEN"]
-COGS = ["cogs.profile", "cogs.trading", "jishaku"]
+COGS = ["cogs.profile", "cogs.trading", "jishaku", "cogs.developer"]
 
 
 class BreakingBot(commands.Bot):
@@ -27,7 +27,11 @@ class BreakingBot(commands.Bot):
         self.env = self.get_env()
 
         super().__init__(
-            command_prefix=config.prefix, intents=discord.Intents.all(), *args, **kwargs
+            command_prefix=config.prefix,
+            intents=discord.Intents.all(),
+            owner_ids=config.owner_ids,
+            *args,
+            **kwargs,
         )
 
     def get_env(self) -> Dict[str, str]:
