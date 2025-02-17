@@ -1,13 +1,13 @@
 import discord
 
 from discord.ext import commands
-from core.bot import BreakingBot
+from core.bot import DeckBot
 from core.converters import NumberConverter
 from core.utils import format_number
 
 
 class Developer(commands.Cog):
-    def __init__(self, bot: BreakingBot):
+    def __init__(self, bot: DeckBot):
         self.bot = bot
 
     @commands.group(aliases=["dev"])
@@ -60,6 +60,12 @@ class Developer(commands.Cog):
         item_doc = await self.bot.economy.create_item(item_id, item_name)
         await ctx.reply(f"Created item {item_doc.name} with id {item_doc}.")
 
+    @developer.command()
+    async def dump(self, ctx: commands.Context):
+        await ctx.reply("Dumping database...")
+        self.bot.economy.dump()
+        await ctx.reply("Dumped database.")
 
-async def setup(bot: BreakingBot):
+
+async def setup(bot: DeckBot):
     await bot.add_cog(Developer(bot))

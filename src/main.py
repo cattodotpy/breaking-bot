@@ -1,4 +1,4 @@
-from core.bot import BreakingBot
+from core.bot import DeckBot
 from core.config import Config
 import asyncio
 import json
@@ -14,7 +14,7 @@ async def main():
         config = json.load(f)
 
     config = Config(**config)
-    bot = BreakingBot(config)
+    bot = DeckBot(config)
     await bot.start()
 
 

@@ -10,10 +10,10 @@ from .config import Config
 import os
 
 REQUIRED_ENVS = ["MONGO_URI", "BOT_TOKEN"]
-COGS = ["cogs.profile", "cogs.trading", "jishaku", "cogs.developer"]
+COGS = ["cogs.profile", "cogs.trading", "jishaku", "cogs.developer", "cogs.card"]
 
 
-class BreakingBot(commands.Bot):
+class DeckBot(commands.Bot):
     db_client: AsyncIOMotorClient
     database: AsyncIOMotorDatabase
     config: Config
@@ -53,7 +53,7 @@ class BreakingBot(commands.Bot):
 
     async def connect_db(self):
         self.db_client = AsyncIOMotorClient(self.env["MONGO_URI"])
-        self.database = self.db_client["breakingbot"]
+        self.database = self.db_client["deckbot"]
         await init_beanie(self.database, document_models=MODELS)
 
         self.economy = Economy(self.database)

@@ -4,7 +4,7 @@ import discord
 
 def base_embed(title: str = None, description: str = None, color=0x346EEB) -> Embed:
     return Embed(color=color, title=title, description=description).set_footer(
-        text="Breaking Bot, the meth-making robot."
+        text="DeckBot"
     )
 
 

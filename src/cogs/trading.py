@@ -1,14 +1,14 @@
 import discord
 
 from discord.ext import commands
-from core.bot import BreakingBot
+from core.bot import DeckBot
 from core.converters import NumberConverter, Value
 from core.utils import format_number
 from core.ui import Confirm, base_embed
 
 
 class Trading(commands.Cog):
-    def __init__(self, bot: BreakingBot):
+    def __init__(self, bot: DeckBot):
         self.bot = bot
 
     @commands.command(aliases=["give", "wire"])
@@ -74,5 +74,5 @@ class Trading(commands.Cog):
         )
 
 
-async def setup(bot: BreakingBot):
+async def setup(bot: DeckBot):
     await bot.add_cog(Trading(bot))

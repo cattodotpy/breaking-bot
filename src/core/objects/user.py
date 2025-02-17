@@ -54,9 +54,9 @@ class User:
         )
 
     async def save(self):
-        # save the items as link
-        self.doc.inventory = [item.to_document() for item in self.inventory]
-        await self.doc.save()
+        doc = self.to_document()
+        doc.inventory = [item.to_document() for item in self.inventory]
+        await doc.save()
 
     async def add_balance(self, amount: float):
         self.balance += amount

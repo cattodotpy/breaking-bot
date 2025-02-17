@@ -42,6 +42,9 @@ class Economy:
         self.users[user_id] = user
         return user
 
+    def dump(self):
+        self.users = {}
+
     async def create_item(
         self, id: str, item_name: str, description: str | None = None
     ):

@@ -1,13 +1,13 @@
 import discord
 
 from discord.ext import commands
-from core.bot import BreakingBot
+from core.bot import DeckBot
 from core.utils import format_number
 from core.ui import base_embed
 
 
 class Profile(commands.Cog):
-    def __init__(self, bot: BreakingBot):
+    def __init__(self, bot: DeckBot):
         self.bot = bot
 
     @commands.command(aliases=["bal", "balance"])
@@ -42,5 +42,5 @@ class Profile(commands.Cog):
         return await ctx.reply(embed=embed)
 
 
-async def setup(bot: BreakingBot):
+async def setup(bot: DeckBot):
     await bot.add_cog(Profile(bot))
